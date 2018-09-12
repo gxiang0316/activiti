@@ -20,4 +20,14 @@ spring:
   activiti:
     check-process-definitions: false
     database-schema-update: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .jsp
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
+    #关闭缓存，及时刷新，生产环境应该改为true
+    cache: false
+
+
 
