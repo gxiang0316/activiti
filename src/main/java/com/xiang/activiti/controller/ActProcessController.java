@@ -6,7 +6,10 @@ import net.sf.json.JSONObject;
 import org.activiti.bpmn.model.DataGrid;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.impl.interceptor.Command;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-
+import java.util.List;
 
 
 /**
@@ -36,6 +39,10 @@ public class ActProcessController{
 
 	@Autowired
 	private ActProcessService actProcessService;
+	@Autowired
+	private RepositoryService repositoryService;
+	@Autowired
+	private RuntimeService runtimeService;
 
 	/**
 	 * 流程管理
@@ -43,7 +50,7 @@ public class ActProcessController{
 	@RequestMapping(value = "/toProcess")
 	public String toProcess()
 	{
-		return "actProcesslist";
+		return "actProcess";
 	}
 
 	/**
@@ -82,17 +89,25 @@ public class ActProcessController{
 		return "sucess";
 	}
 
-
 	
 	/**
 	 * 流程定义列表
 	 */
 	@RequestMapping(value = "/processList")
-	public String processList(HttpServletResponse response)
+	public String processList(Model model)
 	{
-		JSONObject jObject = actProcessService.processList();
-		responseDatagrid(response, jObject);
-		return "actProcesslist";
+		List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().list();
+		model.addAttribute("processList",list);
+		return "actProcessList";
+	}
+
+	/**
+	 * 启动流程实例
+	 */
+	public String startProcess(@PathVariable("id")String id)
+	{
+		runtimeService.startProcessInstanceByKey(id);
+		return "";
 	}
 
 	/**
