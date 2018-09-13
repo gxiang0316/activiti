@@ -31,10 +31,11 @@ public class ActProcessService
 	private RuntimeService runtimeService;
 	
 	@Transactional(readOnly = false)
-	public String deploy(String exportDir, String category, MultipartFile file) 
+	public String deploy(MultipartFile file)
 	{
 
 		String message = "";
+		String category = "test";
 		
 		String fileName = file.getOriginalFilename();
 		

@@ -8,7 +8,6 @@ import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.*;
-import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.explorer.util.XmlUtil;
 import org.apache.commons.io.IOUtils;
@@ -210,40 +209,6 @@ public class ModelController
             out.write("未找到对应数据");
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 发布模型为流程定义
-     */
-    @RequestMapping(value = "/deploy/{modelId}",method = RequestMethod.GET)
-    @ResponseBody
-    public Object deploy(@PathVariable String modelId) throws Exception
-    {
-        Model modelData = repositoryService.getModel(modelId);
-        byte[] bytes = repositoryService.getModelEditorSource(modelData.getId());
-
-        if (bytes == null) {
-            return "模型数据为空，请先设计流程并成功保存，再进行发布。";
-        }
-
-        JsonNode modelNode = new ObjectMapper().readTree(bytes);
-
-        BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
-        if(model.getProcesses().size()==0){
-            return "数据模型不符要求，请至少设计一条主线流程。";
-        }
-        byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
-
-        //发布流程
-        String processName = modelData.getName() + ".bpmn20.xml";
-        Deployment deployment = repositoryService.createDeployment()
-                .name(modelData.getName())
-                .addString(processName, new String(bpmnBytes, "UTF-8"))
-                .deploy();
-        modelData.setDeploymentId(deployment.getId());
-        repositoryService.saveModel(modelData);
-
-        return "SUCCESS";
     }
 
     public void test()

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form id="deployForm" action="/activiti/process/deploy" method="post" enctype="multipart/form-data">
+        <div>
+            <label>流程文件：</label>
+            <div>
+                <input type="file" id="file" name="file"/>
+            </div>
+            <div>
+                <span>支持文件格式：zip、bar、bpmn、bpmn20.xml</span>
+            </div>
+        </div>
+        <div>
+            <input id="btnSubmit"  type="submit" value="提 交"/>
+            <input id="btnCancel"  type="button" value="返 回" onclick="history.go(-1)"/>
+        </div>
+    </form>
+</body>
+</html>

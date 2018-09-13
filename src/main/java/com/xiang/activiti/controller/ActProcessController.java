@@ -10,11 +10,9 @@ import org.activiti.engine.impl.interceptor.Command;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,31 +30,31 @@ import java.io.PrintWriter;
  * @author guixiang
  * @version 2018-03-18
  */
-@RestController
-@RequestMapping("/actProcessController")
+@Controller
+@RequestMapping("/process")
 public class ActProcessController{
 
 	@Autowired
 	private ActProcessService actProcessService;
-	
+
 	/**
-	 * 流程定义列表
+	 * 流程管理
 	 */
-	@RequestMapping(params = "processList")
-	public ModelAndView processList(HttpServletRequest request) 
+	@RequestMapping(value = "/toProcess")
+	public String toProcess()
 	{
-		return new ModelAndView("jeecg/activiti/process/processlist");
+		return "actProcesslist";
 	}
-	
+
 	/**
 	 * 部署流程页面跳转
-	 * 
+	 *
 	 * @return
 	 */
-	@RequestMapping(params = "toDeploy")
-	public ModelAndView toDeploy(HttpServletRequest request) 
+	@GetMapping(value = "/toDeploy")
+	public String toDeploy()
 	{
-		return new ModelAndView("act/actProcessDeploy");
+		return "actProcessDeploy";
 	}
 
 	/**
@@ -64,26 +62,39 @@ public class ActProcessController{
 	 * @param file
 	 * @return
 	 */
-	@RequestMapping(params = "deploy")
-	public String deploy(@Value("#{APP_PROP['activiti.export.diagram.path']}") String exportDir, 
-			String category, MultipartFile file, RedirectAttributes redirectAttributes) 
+	@PostMapping(value = "/deploy")
+	@ResponseBody
+	public String deploy(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
 	{
 		String fileName = file.getOriginalFilename();
-		
+
 		if (StringUtils.isBlank(fileName))
 		{
 			redirectAttributes.addFlashAttribute("message", "请选择要部署的流程文件");
 		}
 		else
 		{
-			String message = actProcessService.deploy(exportDir, category, file);
+			String message = actProcessService.deploy(file);
 			redirectAttributes.addFlashAttribute("message", message);
 			System.out.println("message=" + message);
 		}
 
 		return "sucess";
 	}
+
+
 	
+	/**
+	 * 流程定义列表
+	 */
+	@RequestMapping(value = "/processList")
+	public String processList(HttpServletResponse response)
+	{
+		JSONObject jObject = actProcessService.processList();
+		responseDatagrid(response, jObject);
+		return "actProcesslist";
+	}
+
 	/**
 	 * easyui 运行中流程列表页面
 	 * @param request
@@ -198,17 +209,19 @@ public class ActProcessController{
 		responseDatagrid(response, jObject);
 	}
 	
-	// -----------------------------------------------------------------------------------
-	// 以下各函数可以提成共用部件 (Add by Quainty)
-	// -----------------------------------------------------------------------------------
-	public void responseDatagrid(HttpServletResponse response, JSONObject jObject) {
+
+	public void responseDatagrid(HttpServletResponse response, JSONObject jObject)
+	{
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
-		try {
+		try
+		{
 			PrintWriter pw=response.getWriter();
 			pw.write(jObject.toString());
 			pw.flush();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
