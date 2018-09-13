@@ -2,13 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>流程管理</title>
+    <title>流程列表</title>
 </head>
 <body>
-<ul>
-    <li class="active"><a href="/activiti/process/processList">流程管理</a></li>
-    <li><a href="/activiti/process/toDeploy">部署流程</a></li>
-    <li><a href="/activiti/process/runningList">运行中的流程</a></li>
-</ul>
+<h2>流程列表</h2>
+    <div>
+        <ul>
+            <li th:each="process:${processList}">
+                <p>流程ID:<span th:text="${process.id}"></span></p>
+                <p>流程标识:<span th:text="${process.key}"></span></p>
+                <p>流程名称:<span th:text="${process.name}"></span></p>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>
