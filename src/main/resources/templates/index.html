@@ -1,84 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>后台信息管理系统</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
 </head>
+
 <body>
-<form id = "uploadForm" method="post" action = "/activiti/model/uploadFile" enctype="multipart/form-data">
-<div>
-    <p>
-        <input id = "uploadfile" name = "uploadfile" type = "file" />
-    </p>
-</div>
-<div>
-    <p>
-        <button id = "btn-import" type = "button" onclick="importFlow();">导入模型</button>
-    </p>
-
-</div>
-</form>
-<form id = "createForm" method="get" action = "/activiti/model/newModel" enctype="multipart/form-data">
-<div>
-    <p>
-        <button id = "btn-create" type = "button" onclick="createFlow();">新建模型</button>
-    </p>
-</div>
-</form>
-<form id = "editForm" method="get" action = "/model/edit" enctype="multipart/form-data">
-<div>
-    <p>
-        <button id = "btn-edit" type = "button" onclick="editFlow();">编辑模型</button>
-    </p>
-</div>
-</form>
-<form id = "exportForm" method="get" action = "/model/export" enctype="multipart/form-data">
-<div>
-    <p>
-        <button id = "btn-export" type = "button" onclick="exportFlow();">导出模型</button>
-    </p>
-</div>
-</form>
-<form id = "deployForm" method="get" action = "/activiti/process/toProcess">
-    <div>
-        <p>
-            <button id = "btn-deploy" type = "button" onclick="deploy();">流程管理</button>
-        </p>
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation" th:include="menu :: navigation"></nav>
+        <div id="page-wrapper" class="gray-bg">
+            <div class="border-bottom" th:include="header :: headerTop"></div>
+            <div class="wrapper wrapper-content">
+            </div>
+        </div>
+        <div class="footer" th:include="footer :: copyright"></div>
     </div>
-</form>
 </body>
-<script>
-    function importFlow()
-    {
-        if(document.getElementById("uploadfile").value == "")
-        {
-            alert("请选择要上传的文件");
-            return;
-        }
-        else
-        {
-            document.getElementById("uploadForm").submit();
-        }
-    }
-
-    function createFlow()
-    {
-        document.getElementById("createForm").submit();
-    }
-
-    function editFlow()
-    {
-        document.getElementById("editForm").submit();
-    }
-
-    function exportFlow()
-    {
-        document.getElementById("exportForm").submit();
-    }
-
-    function deploy()
-    {
-        document.getElementById("deployForm").submit();
-    }
-</script>
 </html>
