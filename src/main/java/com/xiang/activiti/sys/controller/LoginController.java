@@ -1,6 +1,7 @@
 package com.xiang.activiti.sys.controller;
 
 import com.xiang.activiti.sys.entity.User;
+import com.xiang.activiti.sys.mapper.UserMapper;
 import com.xiang.activiti.sys.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class LoginController
     private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
-    private UserService userService;
+    private UserMapper userMapper;
 
     @Autowired
     private HttpSession httpSession;
@@ -36,7 +37,7 @@ public class LoginController
      */
     @PostMapping("/login")
     public String loginPost(User user, Model model) {
-        User user1 = userService.selectByNameAndPwd(user);
+        User user1 = userMapper.selectByNameAndPwd(user);
         if (user1 != null) {
             httpSession.setAttribute("user", user1);
             User name = (User) httpSession.getAttribute("user");

@@ -11,14 +11,14 @@ CREATE TABLE `oa_leave` (
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
   `id` varchar(64) NOT NULL,
-  `user_name` varchar(50) DEFAULT NULL,
+  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
-  `real_name` varchar(50) DEFAULT NULL,
+  `realname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `business` varchar(255) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `head_picture` varchar(255) DEFAULT NULL,
-  `create_date` timestamp NULL DEFAULT NULL,
-  `update_date` timestamp NULL DEFAULT NULL,
-  `state` int(10) DEFAULT NULL,
+  `headpicture` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `createdate` timestamp NULL DEFAULT NULL,
+  `updatedate` timestamp NULL DEFAULT NULL,
+  `state` tinyint(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
