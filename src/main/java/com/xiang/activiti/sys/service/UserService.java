@@ -15,9 +15,9 @@ public class UserService
 {
     @Autowired
     private UserRepository repository;
+
     public User selectByNameAndPwd(User user)
     {
-        Optional<User> result = repository.findOne((Specification<User>) user);
-        return result.get();
+        return repository.findByUserNameAndPassword(user.getUserName(),user.getPassword());
     }
 }

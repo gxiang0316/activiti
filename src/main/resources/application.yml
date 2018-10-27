@@ -24,6 +24,7 @@ spring:
     job-executor-activate: false
     jpa-enabled: true
 
+
   thymeleaf:
     mode: HTML5
     cache: false

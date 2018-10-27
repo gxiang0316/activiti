@@ -16,18 +16,13 @@ public class Leave implements Serializable {
     private String processInstanceId;
     private String userId;
     private String reason;
+    @Id
     private Long id;
 
-    @Id
-    public Long getId() {
-		return id;
-	}
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Column
     public String getProcessInstanceId() {
         return processInstanceId;
     }
@@ -36,7 +31,6 @@ public class Leave implements Serializable {
         this.processInstanceId = processInstanceId;
     }
 
-    @Column
     public String getUserId() {
         return userId;
     }
@@ -45,13 +39,20 @@ public class Leave implements Serializable {
         this.userId = userId;
     }
 
-    @Column
     public String getReason() {
         return reason;
     }
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

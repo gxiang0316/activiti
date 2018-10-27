@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>后台信息管理系统</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/footable/footable.core.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation" th:include="menu :: navigation"></nav>
+    <div id="page-wrapper" class="gray-bg">
+        <div class="border-bottom" th:include="header :: headerTop"></div>
+        <div class="row wrapper border-bottom white-bg page-heading" th:fragment="headerNav">
+            <div class="col-lg-10">
+                <h2>流程管理</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="#">首页</a>
+                    </li>
+                    <li>
+                        <a>流程管理</a>
+                    </li>
+                    <li class="active">
+                        <strong>部署流程</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <form id="deployForm" action="/activiti/process/deploy" method="post" enctype="multipart/form-data">
+                <div>
+                    <label>流程文件：</label>
+                    <div>
+                        <input type="file" id="file" name="file"/>
+                    </div>
+                    <div>
+                        <span>支持文件格式：zip、bar、bpmn、bpmn20.xml</span>
+                    </div>
+                </div>
+                <div>
+                    <input id="btnSubmit"  type="submit" value="提 交"/>
+                    <input id="btnCancel"  type="button" value="返 回" onclick="history.go(-1)"/>
+                </div>
+            </form>
+        </div>
+        <div class="footer" th:include="footer :: copyright"></div>
+    </div>
+</div>
+</body>
+
+</html>

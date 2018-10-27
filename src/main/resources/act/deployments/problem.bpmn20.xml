@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
   <process id="problem" name="工单投诉" isExecutable="true">
-    <documentation>工单投诉</documentation>
+    <documentation>createProblemProcess.html</documentation>
     <startEvent id="sid-A305403B-C016-406C-A7A7-A47B64B27467"></startEvent>
     <exclusiveGateway id="sid-9B188087-86A3-4355-9908-73BE03E9C434"></exclusiveGateway>
     <sequenceFlow id="sid-CF3ED6BB-BF41-4E87-AFCF-74A031119434" sourceRef="sid-A305403B-C016-406C-A7A7-A47B64B27467" targetRef="sid-9B188087-86A3-4355-9908-73BE03E9C434"></sequenceFlow>
-    <userTask id="sid-CEBEE66D-E29C-44EA-899F-C973D9DA6829" name="派单">
-      <documentation>派单</documentation>
+    <userTask id="sid-CEBEE66D-E29C-44EA-899F-C973D9DA6829" name="派单" activiti:candidateGroups="deptLeader">
+      <documentation>dispathProblem.html</documentation>
     </userTask>
     <endEvent id="sid-1D57E3E3-4999-4204-A6BF-1E5003981759"></endEvent>
     <userTask id="sid-448D0461-94B3-4220-8CF8-196A0FF97EDE" name="回复外部系统"></userTask>

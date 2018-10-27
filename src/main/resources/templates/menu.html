@@ -28,18 +28,14 @@
             </li>
 
             <li>
-                <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">商品管理</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li id="itemManage"><a th:href="@{itemManage_0_0_0}">商品管理</a></li>
-                    <li id="stockManage"><a th:href="@{stockManage_0_0_0}">库存管理</a></li>
-                    <li id="itemCategoryManage"><a th:href="@{itemCategoryManage_0_0_0}">商品分类</a></li>
-                    <li id="recoverManage"><a th:href="@{recoverManage_0_0_0}">回收管理</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-shopping-cart"></i> <span class="nav-label">用户管理</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li id="userManage"><a th:href="@{userManage}">信息修改</a></li>
+                <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">流程管理</span><span class="fa arrow"></span></a>
+                <ul class="nav">
+                    <li id="processManage"><a href="/activiti/process/processList">流程管理</a></li>
+                    <li id="deployManage"><a href="/activiti/process/toDeploy">部署流程</a></li>
+                    <li id="modelManage"><a href="/activiti/model/newModel">新建模型</a></li>
+                    <li id="unClaimedManage"><a href="/activiti/task/unclaimed">工单池</a></li>
+                    <li id="claimedManage"><a href="/activiti/task/claimed">待办区</a></li>
+                    <li id="finishedManage"><a href="/activiti/task/finished">历史单</a></li>
                 </ul>
             </li>
 

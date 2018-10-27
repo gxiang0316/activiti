@@ -38,7 +38,7 @@ public class ActModelController
 	@RequestMapping(value = "/newModel",method = RequestMethod.GET)
 	public String newModel(ModelMap map) {
 		map.put("model",new CusModel());
-		return "actModelCreat";
+		return "act/model/actModelCreat";
 	}
 	
 	/**
@@ -78,4 +78,15 @@ public class ActModelController
 			System.out.println("创建模型失败：");
 		}
 	}
+
+
+
+
+
+
+
+
+
+
+
 }
