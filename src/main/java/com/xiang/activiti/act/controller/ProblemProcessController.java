@@ -13,13 +13,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -43,8 +41,9 @@ public class ProblemProcessController {
 	 * 新建工单,启动流程实例表单
 	 */
 	@RequestMapping(value = "/createProcess")
-	public String startPageSelect(@RequestParam("startPage") String startPage,HttpServletRequest request)
+	public String startPageSelect(@RequestParam("startPage") String startPage,@RequestParam("key")String key, Model model)
 	{
+		model.addAttribute("key",key);
 		return "act/problemProcess/"+startPage.substring(0, startPage.lastIndexOf("."));
 	}
 
@@ -71,49 +70,40 @@ public class ProblemProcessController {
 
 	
 	/**
-	 * 完成任务表单选择
+	 * 完成任务表单选择，即每一环节的表单选择
 	 */
 	@RequestMapping(value = "taskCompletePageSelect")
-	public ModelAndView taskCompletePageSelect(@RequestParam("jspPage") String jspPage,
+	public String taskCompletePageSelect(@RequestParam("taskPage") String taskPage,
 			@RequestParam("processInstanceId") String processInstanceId,
 			@RequestParam("taskId") String taskId,HttpServletRequest request,Model model) 
 	{
-			
-			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();
-			
-			String businessKey = processInstance.getBusinessKey();
-
-			ProblemProcess problemProcess = problemProcessService.getProblemProcess(businessKey);
-		
-			model.addAttribute("processInstanceId", processInstanceId);
-			model.addAttribute("taskId", taskId);
-			model.addAttribute("problemProcess",problemProcess);
-			
-			System.out.println(jspPage);
-		
-			return new ModelAndView("jeecg/activiti/my/"+jspPage.substring(0, jspPage.lastIndexOf(".")));
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();
+		String businessKey = processInstance.getBusinessKey();
+		ProblemProcess problemProcess = problemProcessService.getProblemProcess(businessKey);
+		model.addAttribute("processInstanceId", processInstanceId);
+		model.addAttribute("taskId", taskId);
+		model.addAttribute("problemProcess",problemProcess);
+		//System.out.println(jspPage);
+		return "act/problemProcess/"+taskPage.substring(0, taskPage.lastIndexOf("."));
 	}
 
 	/**
 	 * 完成任务
 	 * @param taskId
-	 * @param var
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(params = "completeTask")
+	@PostMapping(value = "completeTask")
 	@ResponseBody
-	public AjaxJson completeTask(String taskId, Variable var, HttpServletRequest request)
+	public AjaxJson completeTask(String taskId,HttpServletRequest request)
 	{
 		AjaxJson j = new AjaxJson();
 		
-		Map<String, Object> variables = var.getVariableMap();
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("dispatch",true);
+		variables.put("handleSucess",false);
         taskService.complete(taskId, variables);
-		
-		//请假流程启动
-		//leaveService.leaveWorkFlowStart(leave);
-		
-		String message = "审批成功";
+		String message = "处理成功";
 		j.setMsg(message);
 		return j;
 	}

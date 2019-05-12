@@ -27,10 +27,10 @@
                         <a href="#">首页</a>
                     </li>
                     <li>
-                        <a>流程管理</a>
+                        <a>模块管理</a>
                     </li>
                     <li class="active">
-                        <strong>待办区</strong>
+                        <strong>模型列表</strong>
                     </li>
                 </ol>
             </div>
@@ -43,7 +43,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>待办区</h5>
+                            <h5>模型列表</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -55,24 +55,26 @@
                                 <table class=" table table-hover" data-page-size="10">
                                     <thead>
                                     <tr>
-                                        <th field="taskId">编号</th>
-                                        <th field="name" width="50">任务名称</th>
-                                        <th field="processDefinitionId" width="50">流程定义</th>
-                                        <th field="processInstanceId" width="50">流程实例</th>
-                                        <th field="opt" width="50">操作</th>
+                                        <th width="5%">模型ID</th>
+                                        <th width="10%">部署编号</th>
+                                        <th width="25%">名称</th>
+                                        <th width="8%">KEY</th>
+                                        <th width="8%">版本</th>
+                                        <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="process:${claimedList}">
-                                        <td th:text="${process.id}" th:align="center"></td>
-                                        <td th:text="${process.name}" th:align="center"></td>
-                                        <td th:text="${process.processDefinitionId}" th:align="center"></td>
-                                        <td th:text="${process.processInstanceId}" th:align="center"></td>
+                                    <tr th:each="model:${modelList}">
+                                        <td th:text="${model.id}" th:align="center"></td>
+                                        <td th:text="${model.deploymentId}" th:align="center"></td>
+                                        <td th:text="${model.name}" th:align="center"></td>
+                                        <td th:text="${model.key}" th:align="center"></td>
+                                        <td th:text="${model.version}" th:align="center"></td>
 
                                         <td th:align="center">
-                                            <a th:href="@{'/problem/taskCompletePageSelect?taskPage='+${process.description}+'&processInstanceId='+${process.processInstanceId}+'&taskId='+${process.id}}" title="审批">
-                                                <i class="fa fa-edit text-navy"></i>
-                                            </a>
+                                            <a th:href="@{'edit/'+${model.id}}" title="编辑模型"><i class="fa fa-edit text-navy"></i></a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{'deploy/'+${model.id}}" title="部署模型"><i class="fa fa-edit text-navy"></i></a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -119,7 +121,36 @@
 <!-- common -->
 <script th:src="@{/js/common.js}"></script>
 
+<script th:inline="javascript">
+    var pageHTML = [[${pageHTML}]];
+    $(document).ready(function () {
+        $("#pageHTML").html(pageHTML);
+    });
 
+    /*<![CDATA[*/
+    function updateState(id,state,commendState){
+        var deleteTag;
+        if(state==2){
+            deleteTag = confirm("确定删除此条信息?");
+        } else {
+            deleteTag = true;
+        }
+        if(deleteTag){
+            $.ajax({
+                type: "POST",
+                url: "itemEditState?id="+id,
+                contentType: "application/json; charset=utf-8",
+                success: function(msg){
+                    window.location.reload();
+                },
+                error: function(){
+                    alert("系统异常！");
+                }
+            });
+        }
+    }
+    /*]]>*/
+</script>
 
 </body>
 

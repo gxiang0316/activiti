@@ -74,7 +74,7 @@
                                         <td th:text="${process.suspensionState}" th:align="center"></td>
 
                                         <td th:align="center">
-                                            <a th:href="@{'/problem/createProcess?startPage='+${process.description}}" title="新建工单"><i class="fa fa-edit text-navy"></i></a>
+                                            <a th:href="@{'/problem/createProcess?startPage='+${process.description} + '&key=' + ${process.key}}" title="新建工单"><i class="fa fa-edit text-navy"></i></a>
                                             &nbsp;&nbsp;&nbsp;&nbsp;
                                             <a th:href="@{'/problem/resourceRead?processDefinitionId='+${process.id} + '&resourceType=image&isIframe'}" title="查看图片"><i class="fa fa-pencil text-navy"></i></a>
                                             &nbsp;&nbsp;&nbsp;&nbsp;

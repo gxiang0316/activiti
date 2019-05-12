@@ -34,8 +34,8 @@ public class ActTaskController{
 	@RequestMapping(value = "/task/unclaimed")
 	public String unClaimedList(Model model)
 	{
-		String userId = "admin";
-		List<Task> unClaimList = taskService.createTaskQuery().taskCandidateUser(userId).active().list();
+		String groupId = "deptLeader";
+		List<Task> unClaimList = taskService.createTaskQuery().taskCandidateGroup(groupId).active().list();
 		model.addAttribute("unClaimedList",unClaimList);
 		return "act/task/waitingClaimTask";
 	}
@@ -64,7 +64,7 @@ public class ActTaskController{
 	@RequestMapping(value = "/task/claimed")
 	public String claimedList(Model model)
 	{
-		String userId = "leaderuser";
+		String userId = "admin";
 		List<Task> claimedList = taskService.createTaskQuery().taskAssignee(userId).list();
 		model.addAttribute("claimedList",claimedList);
 		return "act/task/claimedTask";

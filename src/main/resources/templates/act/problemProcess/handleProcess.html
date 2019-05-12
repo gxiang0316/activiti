@@ -30,7 +30,7 @@
                         <a>流程管理</a>
                     </li>
                     <li class="active">
-                        <strong>新建工单</strong>
+                        <strong>处理工单</strong>
                     </li>
                 </ol>
             </div>
@@ -38,26 +38,41 @@
             </div>
         </div>
         <div class="wrapper wrapper-content animated fadeInRight">
-            <form formid="formobj" dialog="true" layout="table" action="/activiti/problem/startProcess">
-                <table style="width: 600px;" cellpadding="0" cellspacing="1" class="formtable">
+            <form id="formobj" action="" method="post" enctype="multipart/form-data">
+                <table style="width: 600px;" cellpadding="0" cellspacing="1">
                     <tr>
-                        <input type="hidden" name="templateId" th:value = "${key}" />
-                        <td align="right" width="15%" nowrap><label class="Validform_label"> 姓名: </label></td>
+                        <td align="right" width="5%"><label class="Validform_label">用户: </label></td>
+                        <td width="15%" th:text = "${problemProcess.name}"></td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%" nowrap><label class="Validform_label">processInstanceId: </label></td>
+                        <td class="value" width="85%" th:text = "${processInstanceId}"></td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="15%" nowrap><label class="Validform_label">taskId: </label></td>
+                        <td class="value" width="85%" th:text="${taskId}"></td>
+                        <input type="hidden" name="taskId" th:value="${taskId}" />
+                    </tr>
+                    <tr>
                         <td class="value" width="85%">
-                            <input id="reason" class="inputxt" name="name" value="" datatype="s2-10" />
-                            <span class="Validform_checktip">用户名范围在2~10位字符</span>
+                            <input id="btnSubmit"  type="button" onclick="dispatch();" th:value= "派单"/>
+
+                            <input id="btnSubmit1"  type="button" onclick ="feedBack();" value="反馈成功"/>
                         </td>
                     </tr>
                 </table>
-                <div>
-                    <input id="btnSubmit"  type="submit" value="提 交"/>
-                    <input id="btnCancel"  type="button" value="返 回" onclick="history.go(-1)"/>
-                </div>
             </form>
         </div>
         <div class="footer" th:include="footer :: copyright"></div>
     </div>
 </div>
 </body>
+<script th:inline="javascript">
+    function dispatch()
+    {
+       document.getElementById("formobj").action = "/activiti/problem/completeTask";
+       document.getElementById("formobj").submit();
+    }
 
+</script>
 </html>

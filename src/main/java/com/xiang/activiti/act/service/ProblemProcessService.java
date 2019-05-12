@@ -46,8 +46,8 @@ public class ProblemProcessService
             // 用来设置启动流程的人员ID，引擎会自动把用户ID保存到activiti:initiator中
             identityService.setAuthenticatedUserId(entity.getCreator());
             Map<String, Object> variables = new HashMap<String, Object>();
-            //此处的"problem"key值对应act_re_procdef表中key_字段，需后期优化
-            processInstance = runtimeService.startProcessInstanceByKey("problem", businessKey, variables);
+            String key = entity.getTemplateId();
+            processInstance = runtimeService.startProcessInstanceByKey(key, businessKey, variables);
             String processInstanceId = processInstance.getId();
             entity.setTemplateId(processInstanceId);
             LOGGER.debug("start process of {key={}, bkey={}, pid={}, variables={}}", new Object[]{"leave", businessKey, processInstanceId, variables});

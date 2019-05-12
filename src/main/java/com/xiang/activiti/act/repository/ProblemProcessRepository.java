@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ProblemProcessRepository extends CrudRepository<ProblemProcess,String>,
-        JpaRepository<ProblemProcess,String> ,JpaSpecificationExecutor<ProblemProcess> {
+        JpaRepository<ProblemProcess,String> ,JpaSpecificationExecutor<ProblemProcess>
+{
+    //ProblemProcess findByTemplateId(String templateId);
 }
